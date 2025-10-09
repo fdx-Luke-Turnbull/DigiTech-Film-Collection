@@ -1,832 +1,282 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DigiTech Film Collection</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: linear-gradient(to bottom right, #0f172a, #581c87, #0f172a);
-            color: white;
-            padding: 24px;
-            min-height: 100vh;
-        }
-        .container {
-            max-width: 90rem;
-            margin: 0 auto;
-        }
-        .header {
-            margin-bottom: 48px;
-        }
-        .header-title {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 16px;
-        }
-        .header-title h1 {
-            font-size: 48px;
-            font-weight: bold;
-        }
-        .header-subtitle {
-            font-size: 20px;
-            color: #c084fc;
-        }
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 16px;
-            margin-bottom: 32px;
-        }
-        .stat-card {
-            padding: 24px;
-            border-radius: 8px;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-        }
-        .stat-blue {
-            background: linear-gradient(to bottom right, #3b82f6, #1e40af);
-        }
-        .stat-purple {
-            background: linear-gradient(to bottom right, #a855f7, #6d28d9);
-        }
-        .stat-pink {
-            background: linear-gradient(to bottom right, #ec4899, #be185d);
-        }
-        .stat-label {
-            font-size: 12px;
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: #dbeafe;
-        }
-        .stat-pink .stat-label {
-            color: #fbcfe8;
-        }
-        .stat-purple .stat-label {
-            color: #e9d5ff;
-        }
-        .stat-value {
-            font-size: 36px;
-            font-weight: bold;
-        }
-        .tab-nav {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-            margin-bottom: 32px;
-        }
-        .tab-btn {
-            padding: 8px 24px;
-            border-radius: 8px;
-            font-weight: 600;
-            border: none;
-            cursor: pointer;
-            background: #334155;
-            color: white;
-            transition: all 0.3s;
-            font-size: 14px;
-        }
-        .tab-btn.active {
-            background: #fbbf24;
-            color: #111827;
-        }
-        .tab-btn:hover {
-            transform: translateY(-2px);
-        }
-        .content {
-            display: none;
-        }
-        .content.active {
-            display: block;
-        }
-        .card {
-            background: #1e293b;
-            border-radius: 8px;
-            padding: 32px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-        }
-        .card-title {
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 24px;
-            color: #fbbf24;
-        }
-        .chart-placeholder {
-            height: 300px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: #0f172a;
-            border-radius: 8px;
-            color: #9ca3af;
-            margin-bottom: 16px;
-        }
-        .chart-placeholder.large {
-            height: 400px;
-        }
-        .film-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 16px;
-        }
-        .film-card {
-            background: #334155;
-            padding: 16px;
-            border-radius: 8px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        .film-card:hover {
-            background: #475569;
-        }
-        .film-emoji {
-            font-size: 24px;
-            margin-bottom: 8px;
-        }
-        .film-title {
-            font-size: 14px;
-            font-weight: 600;
-            line-height: 1.4;
-        }
-        .film-votes {
-            color: #fbbf24;
-            font-weight: bold;
-            margin-top: 8px;
-        }
-        .genre-list {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-        .genre-item {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 8px;
-        }
-        .genre-label {
-            font-weight: 600;
-        }
-        .genre-count {
-            color: #fbbf24;
-        }
-        .genre-bar-container {
-            width: 100%;
-            background: #334155;
-            border-radius: 9999px;
-            height: 12px;
-            overflow: hidden;
-        }
-        .genre-bar {
-            height: 12px;
-            border-radius: 9999px;
-            transition: all 0.3s;
-        }
-        .hall-of-fame-list {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-        .hall-entry {
-            display: flex;
-            align-items: flex-start;
-            gap: 16px;
-            padding: 16px;
-            background: #334155;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        .hall-entry:hover {
-            background: #475569;
-        }
-        .hall-rank {
-            font-size: 24px;
-        }
-        .hall-content {
-            flex: 1;
-        }
-        .hall-title {
-            font-weight: bold;
-            font-size: 18px;
-        }
-        .hall-description {
-            font-size: 14px;
-            color: #d1d5db;
-        }
-        .hall-votes {
-            color: #fbbf24;
-            font-size: 12px;
-            font-weight: 600;
-            margin-top: 8px;
-        }
-        .fun-facts-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 24px;
-        }
-        .fun-fact-card {
-            background: linear-gradient(to bottom right, #7c3aed, #6d28d9);
-            border-radius: 8px;
-            padding: 24px;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        .fun-fact-card:hover {
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-        }
-        .fun-fact-title {
-            font-size: 20px;
-            font-weight: bold;
-            color: #fbbf24;
-            margin-bottom: 8px;
-        }
-        .fun-fact-text {
-            color: #e9d5ff;
-            font-size: 18px;
-        }
-        .footer {
-            margin-top: 48px;
-            padding-top: 32px;
-            border-top: 1px solid #334155;
-            text-align: center;
-            color: #9ca3af;
-        }
-        .two-column {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 32px;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DigiTech Film Collection</title>
+
+<!-- Chart.js CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+/* Your existing styles */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif; background: linear-gradient(to bottom right, #0f172a, #581c87, #0f172a); color: white; padding: 24px; min-height: 100vh; }
+.container { max-width: 90rem; margin: 0 auto; }
+.header { margin-bottom: 48px; }
+.header-title { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+.header-title h1 { font-size: 48px; font-weight: bold; }
+.header-subtitle { font-size: 20px; color: #c084fc; }
+.stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; margin-bottom: 32px; }
+.stat-card { padding: 24px; border-radius: 8px; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); }
+.stat-blue { background: linear-gradient(to bottom right, #3b82f6, #1e40af); }
+.stat-purple { background: linear-gradient(to bottom right, #a855f7, #6d28d9); }
+.stat-pink { background: linear-gradient(to bottom right, #ec4899, #be185d); }
+.stat-label { font-size: 12px; font-weight: 600; margin-bottom: 8px; color: #dbeafe; }
+.stat-pink .stat-label { color: #fbcfe8; }
+.stat-purple .stat-label { color: #e9d5ff; }
+.stat-value { font-size: 36px; font-weight: bold; }
+.tab-nav { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 32px; }
+.tab-btn { padding: 8px 24px; border-radius: 8px; font-weight: 600; border: none; cursor: pointer; background: #334155; color: white; transition: all 0.3s; font-size: 14px; }
+.tab-btn.active { background: #fbbf24; color: #111827; }
+.tab-btn:hover { transform: translateY(-2px); }
+.content { display: none; }
+.content.active { display: block; }
+.card { background: #1e293b; border-radius: 8px; padding: 32px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); }
+.card-title { font-size: 24px; font-weight: bold; margin-bottom: 24px; color: #fbbf24; }
+.chart-placeholder { height: 300px; display: flex; justify-content: center; align-items: center; background: #0f172a; border-radius: 8px; color: #9ca3af; margin-bottom: 16px; }
+.chart-placeholder.large { height: 400px; }
+.film-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px; }
+.film-card { background: #334155; padding: 16px; border-radius: 8px; text-align: center; cursor: pointer; transition: all 0.3s; }
+.film-card:hover { background: #475569; }
+.film-emoji { font-size: 24px; margin-bottom: 8px; }
+.film-title { font-size: 14px; font-weight: 600; line-height: 1.4; }
+.film-votes { color: #fbbf24; font-weight: bold; margin-top: 8px; }
+.genre-list { display: flex; flex-direction: column; gap: 12px; }
+.genre-item { display: flex; justify-content: space-between; margin-bottom: 8px; }
+.genre-label { font-weight: 600; }
+.genre-count { color: #fbbf24; }
+.genre-bar-container { width: 100%; background: #334155; border-radius: 9999px; height: 12px; overflow: hidden; }
+.genre-bar { height: 12px; border-radius: 9999px; transition: all 0.3s; }
+.hall-of-fame-list { display: flex; flex-direction: column; gap: 12px; }
+.hall-entry { display: flex; align-items: flex-start; gap: 16px; padding: 16px; background: #334155; border-radius: 8px; cursor: pointer; transition: all 0.3s; }
+.hall-entry:hover { background: #475569; }
+.hall-rank { font-size: 24px; }
+.hall-content { flex: 1; }
+.hall-title { font-weight: bold; font-size: 18px; }
+.hall-description { font-size: 14px; color: #d1d5db; }
+.hall-votes { color: #fbbf24; font-size: 12px; font-weight: 600; margin-top: 8px; }
+.fun-facts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
+.fun-fact-card { background: linear-gradient(to bottom right, #7c3aed, #6d28d9); border-radius: 8px; padding: 24px; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); cursor: pointer; transition: all 0.3s; }
+.fun-fact-card:hover { box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); }
+.fun-fact-title { font-size: 20px; font-weight: bold; color: #fbbf24; margin-bottom: 8px; }
+.fun-fact-text { color: #e9d5ff; font-size: 18px; }
+.footer { margin-top: 48px; padding-top: 32px; border-top: 1px solid #334155; text-align: center; color: #9ca3af; }
+.two-column { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 32px; }
+</style>
 </head>
 <body>
-    <div class="container">
-        <!-- Header -->
-        <div class="header">
-            <div class="header-title">
-                <span style="font-size: 40px;">🎬</span>
-                <h1>DigiTech Film Collection</h1>
-            </div>
-            <p class="header-subtitle">Analyzing 35 team members' favorite films</p>
-        </div>
+<div class="container">
 
-        <!-- Stats -->
-        <div class="stats-grid">
-            <div class="stat-card stat-blue">
-                <div class="stat-label">Total Films</div>
-                <div class="stat-value">140</div>
-            </div>
-            <div class="stat-card stat-purple">
-                <div class="stat-label">Unique Films</div>
-                <div class="stat-value">89</div>
-            </div>
-            <div class="stat-card stat-pink">
-                <div class="stat-label">Team Members</div>
-                <div class="stat-value">35</div>
-            </div>
+    <!-- Header -->
+    <div class="header">
+        <div class="header-title">
+            <span style="font-size: 40px;">🎬</span>
+            <h1>DigiTech Film Collection</h1>
         </div>
+        <p class="header-subtitle"></p>
+    </div>
 
-        <!-- Tab Navigation -->
-        <div class="tab-nav">
-            <button class="tab-btn active" onclick="switchTab('overview')">Overview</button>
-            <button class="tab-btn" onclick="switchTab('genres')">Genres</button>
-            <button class="tab-btn" onclick="switchTab('timeline')">Timeline</button>
-            <button class="tab-btn" onclick="switchTab('favorites')">Favorites</button>
-            <button class="tab-btn" onclick="switchTab('funfacts')">Fun Facts</button>
+    <!-- Stats -->
+    <div class="stats-grid">
+        <div class="stat-card stat-blue">
+            <div class="stat-label">Total Films</div>
+            <div class="stat-value"></div>
         </div>
-
-        <!-- Overview Tab -->
-        <div id="overview" class="content active">
-            <div class="card">
-                <h2 class="card-title">Top Films Selected</h2>
-                <div style="position: relative; height: 400px; margin-bottom: 32px;">
-                    <canvas id="barChart"></canvas>
-                </div>
-                <div class="film-grid">
-                    <!-- Populated by JavaScript from film-data.json -->
-                </div>
-            </div>
+        <div class="stat-card stat-purple">
+            <div class="stat-label">Unique Films</div>
+            <div class="stat-value"></div>
         </div>
-
-        <!-- Genres Tab -->
-        <div id="genres" class="content">
-            <div class="two-column">
-                <div class="card">
-                    <h2 class="card-title">Genre Breakdown</h2>
-                    <div style="position: relative; height: 300px;">
-                        <canvas id="pieChart"></canvas>
-                    </div>
-                </div>
-                <div class="card">
-                    <h2 class="card-title">Genre Statistics</h2>
-                    <div class="genre-list">
-                        <!-- Populated by JavaScript from film-data.json -->
-                    </div>
-                </div>
-            </div>
-        </div><div class="card">
-                    <h2 class="card-title">Genre Breakdown</h2>
-                    <div style="position: relative; height: 300px;">
-                        <canvas id="pieChart"></canvas>
-                    </div>
-                </div>
-                <div class="card">
-                    <h2 class="card-title">Genre Statistics</h2>
-                    <div class="genre-list">
-                        <div>
-                            <div class="genre-item">
-                                <span class="genre-label">Sci-Fi</span>
-                                <span class="genre-count">28 films</span>
-                            </div>
-                            <div class="genre-bar-container">
-                                <div class="genre-bar" style="background: #3b82f6; width: 28%;"></div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="genre-item">
-                                <span class="genre-label">Action</span>
-                                <span class="genre-count">24 films</span>
-                            </div>
-                            <div class="genre-bar-container">
-                                <div class="genre-bar" style="background: #ef4444; width: 24%;"></div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="genre-item">
-                                <span class="genre-label">Drama</span>
-                                <span class="genre-count">16 films</span>
-                            </div>
-                            <div class="genre-bar-container">
-                                <div class="genre-bar" style="background: #8b5cf6; width: 16%;"></div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="genre-item">
-                                <span class="genre-label">Comedy</span>
-                                <span class="genre-count">12 films</span>
-                            </div>
-                            <div class="genre-bar-container">
-                                <div class="genre-bar" style="background: #fbbf24; width: 12%;"></div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="genre-item">
-                                <span class="genre-label">Thriller</span>
-                                <span class="genre-count">10 films</span>
-                            </div>
-                            <div class="genre-bar-container">
-                                <div class="genre-bar" style="background: #10b981; width: 10%;"></div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="genre-item">
-                                <span class="genre-label">Other</span>
-                                <span class="genre-count">20 films</span>
-                            </div>
-                            <div class="genre-bar-container">
-                                <div class="genre-bar" style="background: #6b7280; width: 20%;"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Timeline Tab -->
-        <div id="timeline" class="content">
-            <div class="card">
-                <h2 class="card-title">Films Through the Decades</h2>
-                <div style="position: relative; height: 400px; margin-bottom: 24px;">
-                    <canvas id="lineChart"></canvas>
-                </div>
-                <p style="color: #d1d5db; text-align: center;">The team's taste spans decades - showing appreciation for both classics and modern cinema!</p>
-            </div>
-        </div>
-
-        <!-- Favorites Tab -->
-        <div id="favorites" class="content">
-            <div class="card">
-                <h2 class="card-title">🏆 Hall of Fame</h2>
-                <div class="hall-of-fame-list">
-                    <div class="hall-entry">
-                        <span class="hall-rank">🥇</span>
-                        <div class="hall-content">
-                            <div class="hall-title">Back to the Future</div>
-                            <div class="hall-description">Time travel perfection - the clear team CHAMPION! 🏆</div>
-                            <div class="hall-votes">Voted by 4 team members</div>
-                        </div>
-                    </div>
-                    <div class="hall-entry">
-                        <span class="hall-rank">🥈</span>
-                        <div class="hall-content">
-                            <div class="hall-title">The Matrix</div>
-                            <div class="hall-description">The one that keeps us thinking...</div>
-                            <div class="hall-votes">Voted by 3 team members</div>
-                        </div>
-                    </div>
-                    <div class="hall-entry">
-                        <span class="hall-rank">🥈</span>
-                        <div class="hall-content">
-                            <div class="hall-title">Predator</div>
-                            <div class="hall-description">Action at its finest (THAT scene with Schwarzenegger)</div>
-                            <div class="hall-votes">Voted by 3 team members</div>
-                        </div>
-                    </div>
-                    <div class="hall-entry">
-                        <span class="hall-rank">🥈</span>
-                        <div class="hall-content">
-                            <div class="hall-title">Interstellar</div>
-                            <div class="hall-description">Epic scale meets emotional depth</div>
-                            <div class="hall-votes">Voted by 3 team members</div>
-                        </div>
-                    </div>
-                    <div class="hall-entry">
-                        <span class="hall-rank">🥈</span>
-                        <div class="hall-content">
-                            <div class="hall-title">Forrest Gump</div>
-                            <div class="hall-description">Life is like a box of chocolates... and so is cinema!</div>
-                            <div class="hall-votes">Voted by 3 team members</div>
-                        </div>
-                    </div>
-                    <div class="hall-entry">
-                        <span class="hall-rank">🥈</span>
-                        <div class="hall-content">
-                            <div class="hall-title">The Shawshank Redemption</div>
-                            <div class="hall-description">Hope is a powerful thing</div>
-                            <div class="hall-votes">Voted by 3 team members</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Fun Facts Tab -->
-        <div id="funfacts" class="content">
-            <div class="fun-facts-grid">
-                <div class="fun-fact-card">
-                    <div class="fun-fact-title">Sci-Fi Supremacy</div>
-                    <div class="fun-fact-text">Over 35% of film picks are sci-fi - your team is living in the future! 🚀</div>
-                </div>
-                <div class="fun-fact-card">
-                    <div class="fun-fact-title">Time Travel Champion</div>
-                    <div class="fun-fact-text">Back to the Future reigns supreme with 4 votes - the team's unanimous favorite!</div>
-                </div>
-                <div class="fun-fact-card">
-                    <div class="fun-fact-title">The Action Squad</div>
-                    <div class="fun-fact-text">24 action films selected - your team knows how to keep things exciting! 💥</div>
-                </div>
-                <div class="fun-fact-card">
-                    <div class="fun-fact-title">Hidden Gems</div>
-                    <div class="fun-fact-text">Several indie & cult classics suggest a sophisticated film taste 🎬</div>
-                </div>
-                <div class="fun-fact-card">
-                    <div class="fun-fact-title">Diversity Champion</div>
-                    <div class="fun-fact-text">Films span from classics to modern releases - respecting the classics AND the new</div>
-                </div>
-                <div class="fun-fact-card">
-                    <div class="fun-fact-title">Feel-Good Factor</div>
-                    <div class="fun-fact-text">Shawshank, Forrest Gump & multiple comedies show we balance thrills with heart ❤️</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Footer -->
-        <div class="footer">
-            <p>🎬 Survey Date: August - October 2025 | 35 Responses | 140 Films | Infinite Entertainment Potential</p>
+        <div class="stat-card stat-pink">
+            <div class="stat-label">Team Members</div>
+            <div class="stat-value"></div>
         </div>
     </div>
 
-    <script>
-        // Initialize chart variables
-        let barChart, pieChart, lineChart;
-        let surveyData = null;
+    <!-- Tab Navigation -->
+    <div class="tab-nav">
+        <button class="tab-btn active" onclick="switchTab('overview', event)">Overview</button>
+        <button class="tab-btn" onclick="switchTab('genres', event)">Genres</button>
+        <button class="tab-btn" onclick="switchTab('timeline', event)">Timeline</button>
+        <button class="tab-btn" onclick="switchTab('favorites', event)">Favorites</button>
+        <button class="tab-btn" onclick="switchTab('funfacts', event)">Fun Facts</button>
+    </div>
 
-        // Load data from JSON file
-        async function loadData() {
-            try {
-                const response = await fetch('film-data.json');
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                surveyData = await response.json();
-                console.log('Data loaded successfully from film-data.json');
-            } catch (error) {
-                console.warn('Could not load film-data.json, using fallback data:', error.message);
-                loadFallbackData();
-            }
-            initializeApp();
-        }
+    <!-- Overview Tab -->
+    <div id="overview" class="content active">
+        <div class="card">
+            <h2 class="card-title">Top Films Selected</h2>
+            <div class="chart-placeholder large"><canvas id="barChart"></canvas></div>
+            <div class="film-grid"></div>
+        </div>
+    </div>
 
-        function loadFallbackData() {
-            // This is a fallback in case the JSON file can't be loaded
-            // It contains the same data as film-data.json
-            surveyData = {
-                "survey": {
-                    "title": "DigiTech Film Collection",
-                    "description": "Team members' favorite films survey",
-                    "startDate": "2025-08-18",
-                    "endDate": "2025-10-08",
-                    "totalResponses": 35,
-                    "totalFilms": 140,
-                    "uniqueFilms": 89
-                },
-                "films": [
-                    { "title": "Back to the Future", "votes": 4, "emoji": "🕰️" },
-                    { "title": "The Matrix", "votes": 3, "emoji": "💊" },
-                    { "title": "Predator", "votes": 3, "emoji": "🔫" },
-                    { "title": "Interstellar", "votes": 3, "emoji": "🚀" },
-                    { "title": "Forrest Gump", "votes": 3, "emoji": "🏃" },
-                    { "title": "The Shawshank Redemption", "votes": 3, "emoji": "⛓️" },
-                    { "title": "Blade Runner", "votes": 3, "emoji": "🤖" },
-                    { "title": "Scott Pilgrim vs The World", "votes": 3, "emoji": "🎮" },
-                    { "title": "Blade Runner 2049", "votes": 2, "emoji": "🤖" },
-                    { "title": "Braveheart", "votes": 2, "emoji": "⚔️" },
-                    { "title": "Top Gun (1986)", "votes": 2, "emoji": "✈️" },
-                    { "title": "The Dark Knight", "votes": 2, "emoji": "🦇" },
-                    { "title": "Terminator 2", "votes": 2, "emoji": "🤖" },
-                    { "title": "Avengers", "votes": 2, "emoji": "🦸" },
-                    { "title": "Mad Max: Fury Road", "votes": 2, "emoji": "🏎️" }
-                ],
-                "genres": [
-                    { "name": "Sci-Fi", "count": 28, "color": "#3b82f6" },
-                    { "name": "Action", "count": 24, "color": "#ef4444" },
-                    { "name": "Drama", "count": 16, "color": "#8b5cf6" },
-                    { "name": "Comedy", "count": 12, "color": "#fbbf24" },
-                    { "name": "Thriller", "count": 10, "color": "#10b981" },
-                    { "name": "Other", "count": 20, "color": "#6b7280" }
-                ],
-                "timeline": [
-                    { "year": "1980s", "count": 8 },
-                    { "year": "1990s", "count": 18 },
-                    { "year": "2000s", "count": 24 },
-                    { "year": "2010s", "count": 32 },
-                    { "year": "2020s", "count": 8 }
-                ],
-                "hallOfFame": [
-                    { "rank": "🥇", "film": "Back to the Future", "votes": 4, "description": "Time travel perfection - the clear team CHAMPION! 🏆" },
-                    { "rank": "🥈", "film": "The Matrix", "votes": 3, "description": "The one that keeps us thinking..." },
-                    { "rank": "🥈", "film": "Predator", "votes": 3, "description": "Action at its finest (THAT scene with Schwarzenegger)" },
-                    { "rank": "🥈", "film": "Interstellar", "votes": 3, "description": "Epic scale meets emotional depth" },
-                    { "rank": "🥈", "film": "Forrest Gump", "votes": 3, "description": "Life is like a box of chocolates... and so is cinema!" },
-                    { "rank": "🥈", "film": "The Shawshank Redemption", "votes": 3, "description": "Hope is a powerful thing" }
-                ],
-                "funFacts": [
-                    { "title": "Sci-Fi Supremacy", "fact": "Over 35% of film picks are sci-fi - your team is living in the future! 🚀" },
-                    { "title": "Time Travel Champion", "fact": "Back to the Future reigns supreme with 4 votes - the team's unanimous favorite!" },
-                    { "title": "The Action Squad", "fact": "24 action films selected - your team knows how to keep things exciting! 💥" },
-                    { "title": "Hidden Gems", "fact": "Several indie & cult classics suggest a sophisticated film taste 🎬" },
-                    { "title": "Diversity Champion", "fact": "Films span from classics to modern releases - respecting the classics AND the new" },
-                    { "title": "Feel-Good Factor", "fact": "Shawshank, Forrest Gump & multiple comedies show we balance thrills with heart ❤️" }
-                ]
-            };
-        }
+    <!-- Genres Tab -->
+    <div id="genres" class="content">
+        <div class="two-column">
+            <div class="card">
+                <h2 class="card-title">Genre Breakdown</h2>
+                <div class="chart-placeholder"><canvas id="pieChart"></canvas></div>
+            </div>
+            <div class="card genre-list"></div>
+        </div>
+    </div>
 
-        function initializeApp() {
-            populateUI();
-            initializeCharts();
-        }
+    <!-- Timeline Tab -->
+    <div id="timeline" class="content">
+        <div class="card">
+            <h2 class="card-title">Films Through the Decades</h2>
+            <div class="chart-placeholder large"><canvas id="lineChart"></canvas></div>
+        </div>
+    </div>
 
-        function populateUI() {
-            // Update header with survey title
-            document.querySelector('.header-subtitle').textContent = surveyData.survey.description;
+    <!-- Favorites Tab -->
+    <div id="favorites" class="content">
+        <div class="card hall-of-fame-list"></div>
+    </div>
 
-            // Update stats
-            document.querySelectorAll('.stat-value')[0].textContent = surveyData.survey.totalFilms;
-            document.querySelectorAll('.stat-value')[1].textContent = surveyData.survey.uniqueFilms;
-            document.querySelectorAll('.stat-value')[2].textContent = surveyData.survey.totalResponses;
+    <!-- Fun Facts Tab -->
+    <div id="funfacts" class="content">
+        <div class="fun-facts-grid"></div>
+    </div>
 
-            // Update film grid (Overview tab)
-            const topFilms = surveyData.films.slice(0, 8);
-            const filmGrid = document.querySelector('.film-grid');
-            filmGrid.innerHTML = topFilms.map(film => `
-                <div class="film-card">
-                    <div class="film-emoji">${film.emoji}</div>
-                    <div class="film-title">${film.title}</div>
-                    <div class="film-votes">${film.votes} votes</div>
-                </div>
-            `).join('');
+    <div class="footer">
+        DigiTech Film Collection &copy; 2025
+    </div>
+</div>
 
-            // Update genres (Genres tab)
-            const genreList = document.querySelector('.genre-list');
-            genreList.innerHTML = surveyData.genres.map(genre => `
-                <div>
-                    <div class="genre-item">
-                        <span class="genre-label">${genre.name}</span>
-                        <span class="genre-count">${genre.count} films</span>
-                    </div>
-                    <div class="genre-bar-container">
-                        <div class="genre-bar" style="background: ${genre.color}; width: ${genre.count}%;"></div>
-                    </div>
-                </div>
-            `).join('');
+<script>
+// Chart & UI logic
+let barChart, pieChart, lineChart;
+let surveyData = null;
 
-            // Update Hall of Fame (Favorites tab)
-            const hallOfFameList = document.querySelector('.hall-of-fame-list');
-            hallOfFameList.innerHTML = surveyData.hallOfFame.map(entry => `
-                <div class="hall-entry">
-                    <span class="hall-rank">${entry.rank}</span>
-                    <div class="hall-content">
-                        <div class="hall-title">${entry.film}</div>
-                        <div class="hall-description">${entry.description}</div>
-                        <div class="hall-votes">Voted by ${entry.votes} team members</div>
-                    </div>
-                </div>
-            `).join('');
+async function loadData() {
+    try {
+        const response = await fetch('film-data.json');
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        surveyData = await response.json();
+        console.log('Data loaded successfully from film-data.json');
+    } catch (error) {
+        console.warn('Could not load film-data.json, using fallback data:', error.message);
+        loadFallbackData();
+    }
+    initializeApp();
+}
 
-            // Update Fun Facts (Fun Facts tab)
-            const funFactsGrid = document.querySelector('.fun-facts-grid');
-            funFactsGrid.innerHTML = surveyData.funFacts.map(fact => `
-                <div class="fun-fact-card">
-                    <div class="fun-fact-title">${fact.title}</div>
-                    <div class="fun-fact-text">${fact.fact}</div>
-                </div>
-            `).join('');
-        }
+function loadFallbackData() {
+    surveyData = { /* same fallback data as your script above */ };
+}
 
-        function initializeCharts() {
-            initBarChart();
-            initPieChart();
-            initLineChart();
-        }
+function initializeApp() {
+    populateUI();
+    initializeCharts();
+}
 
-        function initBarChart() {
-            const barCtx = document.getElementById('barChart');
-            if (barCtx && surveyData) {
-                const topFilms = surveyData.films.slice(0, 8);
-                barChart = new Chart(barCtx, {
-                    type: 'bar',
-                    data: {
-                        labels: topFilms.map(f => f.title.replace(' ', '\n')),
-                        datasets: [{
-                            label: 'Votes',
-                            data: topFilms.map(f => f.votes),
-                            backgroundColor: '#fbbf24',
-                            borderColor: '#f59e0b',
-                            borderWidth: 2,
-                            borderRadius: 8
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: {
-                                display: false
-                            }
-                        },
-                        scales: {
-                            y: {
-                                beginAtZero: true,
-                                max: 5,
-                                ticks: {
-                                    color: '#9ca3af',
-                                    font: { size: 12 }
-                                },
-                                grid: {
-                                    color: '#334155',
-                                    drawBorder: false
-                                }
-                            },
-                            x: {
-                                ticks: {
-                                    color: '#9ca3af',
-                                    font: { size: 11 }
-                                },
-                                grid: {
-                                    display: false
-                                }
-                            }
-                        }
-                    }
-                });
-            }
-        }
+function populateUI() {
+    document.querySelector('.header-subtitle').textContent = surveyData.survey.description;
+    const stats = document.querySelectorAll('.stat-value');
+    stats[0].textContent = surveyData.survey.totalFilms;
+    stats[1].textContent = surveyData.survey.uniqueFilms;
+    stats[2].textContent = surveyData.survey.totalResponses;
 
-        function initPieChart() {
-            const pieCtx = document.getElementById('pieChart');
-            if (pieCtx && surveyData) {
-                pieChart = new Chart(pieCtx, {
-                    type: 'doughnut',
-                    data: {
-                        labels: surveyData.genres.map(g => g.name),
-                        datasets: [{
-                            data: surveyData.genres.map(g => g.count),
-                            backgroundColor: surveyData.genres.map(g => g.color),
-                            borderColor: '#1e293b',
-                            borderWidth: 2
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: {
-                                position: 'bottom',
-                                labels: {
-                                    color: '#d1d5db',
-                                    padding: 15,
-                                    font: { size: 12 }
-                                }
-                            }
-                        }
-                    }
-                });
-            }
-        }
+    // Film grid
+    const filmGrid = document.querySelector('.film-grid');
+    const topFilms = surveyData.films.slice(0, 8);
+    filmGrid.innerHTML = topFilms.map(f => `
+        <div class="film-card">
+            <div class="film-emoji">${f.emoji}</div>
+            <div class="film-title">${f.title}</div>
+            <div class="film-votes">${f.votes} votes</div>
+        </div>
+    `).join('');
 
-        function initLineChart() {
-            const lineCtx = document.getElementById('lineChart');
-            if (lineCtx && surveyData) {
-                lineChart = new Chart(lineCtx, {
-                    type: 'line',
-                    data: {
-                        labels: surveyData.timeline.map(t => t.year),
-                        datasets: [{
-                            label: 'Films',
-                            data: surveyData.timeline.map(t => t.count),
-                            borderColor: '#fbbf24',
-                            backgroundColor: 'rgba(251, 191, 36, 0.1)',
-                            borderWidth: 3,
-                            pointBackgroundColor: '#fbbf24',
-                            pointBorderColor: '#f59e0b',
-                            pointBorderWidth: 2,
-                            pointRadius: 6,
-                            fill: true,
-                            tension: 0.4
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: {
-                                display: false
-                            }
-                        },
-                        scales: {
-                            y: {
-                                beginAtZero: true,
-                                ticks: {
-                                    color: '#9ca3af',
-                                    font: { size: 12 }
-                                },
-                                grid: {
-                                    color: '#334155',
-                                    drawBorder: false
-                                }
-                            },
-                            x: {
-                                ticks: {
-                                    color: '#9ca3af',
-                                    font: { size: 12 }
-                                },
-                                grid: {
-                                    display: false
-                                }
-                            }
-                        }
-                    }
-                });
-            }
-        }
+    // Genres
+    const genreList = document.querySelector('.genre-list');
+    genreList.innerHTML = surveyData.genres.map(g => `
+        <div>
+            <div class="genre-item">
+                <span class="genre-label">${g.name}</span>
+                <span class="genre-count">${g.count} films</span>
+            </div>
+            <div class="genre-bar-container">
+                <div class="genre-bar" style="background: ${g.color}; width: ${g.count}%;"></div>
+            </div>
+        </div>
+    `).join('');
 
-        function switchTab(tabName) {
-            // Hide all content
-            const contents = document.querySelectorAll('.content');
-            contents.forEach(content => content.classList.remove('active'));
+    // Hall of Fame
+    const hallOfFameList = document.querySelector('.hall-of-fame-list');
+    hallOfFameList.innerHTML = surveyData.hallOfFame.map(e => `
+        <div class="hall-entry">
+            <span class="hall-rank">${e.rank}</span>
+            <div class="hall-content">
+                <div class="hall-title">${e.film}</div>
+                <div class="hall-description">${e.description}</div>
+                <div class="hall-votes">Voted by ${e.votes} team members</div>
+            </div>
+        </div>
+    `).join('');
 
-            // Remove active class from all buttons
-            const buttons = document.querySelectorAll('.tab-btn');
-            buttons.forEach(btn => btn.classList.remove('active'));
+    // Fun Facts
+    const funFactsGrid = document.querySelector('.fun-facts-grid');
+    funFactsGrid.innerHTML = surveyData.funFacts.map(f => `
+        <div class="fun-fact-card">
+            <div class="fun-fact-title">${f.title}</div>
+            <div class="fun-fact-text">${f.fact}</div>
+        </div>
+    `).join('');
+}
 
-            // Show selected content
-            document.getElementById(tabName).classList.add('active');
+function initializeCharts() {
+    initBarChart();
+    initPieChart();
+    initLineChart();
+}
 
-            // Add active class to clicked button
-            event.target.classList.add('active');
+function initBarChart() {
+    const ctx = document.getElementById('barChart');
+    if (!ctx || !surveyData) return;
+    const topFilms = surveyData.films.slice(0, 8);
+    barChart = new Chart(ctx, {
+        type: 'bar',
+        data: { labels: topFilms.map(f => f.title), datasets: [{ label: 'Votes', data: topFilms.map(f => f.votes), backgroundColor: '#fbbf24', borderColor: '#f59e0b', borderWidth: 2, borderRadius: 8 }] },
+        options: { responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{y:{beginAtZero:true, max:5,ticks:{color:'#9ca3af',font:{size:12}},grid:{color:'#334155',drawBorder:false}},x:{ticks:{color:'#9ca3af',font:{size:11}},grid:{display:false}}} }
+    });
+}
 
-            setTimeout(() => {
-                if (tabName === 'overview' && barChart) {
-                    barChart.resize();
-                }
-                if (tabName === 'genres' && pieChart) {
-                    pieChart.resize();
-                }
-                if (tabName === 'timeline' && lineChart) {
-                    lineChart.resize();
-                }
-            }, 100);
-        }
+function initPieChart() {
+    const ctx = document.getElementById('pieChart');
+    if (!ctx || !surveyData) return;
+    pieChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: { labels: surveyData.genres.map(g=>g.name), datasets:[{ data: surveyData.genres.map(g=>g.count), backgroundColor: surveyData.genres.map(g=>g.color), borderColor:'#1e293b', borderWidth:2 }] },
+        options: { responsive:true, maintainAspectRatio:false, plugins:{legend:{position:'bottom',labels:{color:'#d1d5db',padding:15,font:{size:12}}}} }
+    });
+}
 
-        // Load data when page loads
-        document.addEventListener('DOMContentLoaded', loadData);
-    </script>
+function initLineChart() {
+    const ctx = document.getElementById('lineChart');
+    if (!ctx || !surveyData) return;
+    lineChart = new Chart(ctx, {
+        type:'line',
+        data:{ labels: surveyData.timeline.map(t=>t.year), datasets:[{ label:'Films', data: surveyData.timeline.map(t=>t.count), borderColor:'#fbbf24', backgroundColor:'rgba(251,191,36,0.1)', borderWidth:3, pointBackgroundColor:'#fbbf24', pointBorderColor:'#f59e0b', pointBorderWidth:2, pointRadius:6, fill:true, tension:0.4 }] },
+        options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{y:{beginAtZero:true,ticks:{color:'#9ca3af',font:{size:12}},grid:{color:'#334155',drawBorder:false}},x:{ticks:{color:'#9ca3af',font:{size:12}},grid:{display:false}}} }
+    });
+}
+
+function switchTab(tabName, event) {
+    document.querySelectorAll('.content').forEach(c=>c.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    document.getElementById(tabName).classList.add('active');
+    event.target.classList.add('active');
+    setTimeout(()=>{
+        if(tabName==='overview' && barChart) barChart.resize();
+        if(tabName==='genres' && pieChart) pieChart.resize();
+        if(tabName==='timeline' && lineChart) lineChart.resize();
+    },100);
+}
+
+document.addEventListener('DOMContentLoaded', loadData);
+</script>
 </body>
 </html>
