@@ -1,90 +1,144 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DigiTech Film Collection</title>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<style>
-    body { font-family: sans-serif; background: #0f172a; color: white; padding: 24px; }
-    .container { max-width: 1200px; margin: 0 auto; }
-    .header { margin-bottom: 32px; }
-    .stats-grid { display: flex; gap: 16px; margin-bottom: 24px; }
-    .stat-card { flex: 1; padding: 16px; border-radius: 8px; background: #334155; text-align: center; }
-    .stat-label { font-size: 12px; color: #cbd5e1; }
-    .stat-value { font-size: 24px; font-weight: bold; }
-    .tab-nav { display: flex; gap: 8px; margin-bottom: 16px; }
-    .tab-btn { padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; background: #475569; color: white; }
-    .tab-btn.active { background: #fbbf24; color: #111827; }
-    .content { display: none; }
-    .content.active { display: block; }
-    .chart-container { height: 400px; margin-bottom: 16px; }
-    .film-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
-    .film-card { background: #1e293b; padding: 12px; border-radius: 6px; text-align: center; }
-    .film-emoji { font-size: 24px; }
-    .film-title { font-weight: bold; margin-top: 8px; }
-    .film-votes { color: #fbbf24; margin-top: 4px; font-size: 12px; }
-</style>
+    <meta charset="UTF-8">
+    <title>DigiTech Film Collection</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif; background: linear-gradient(to bottom right, #0f172a, #581c87, #0f172a); color: white; padding: 24px; min-height: 100vh; }
+        .container { max-width: 90rem; margin: 0 auto; }
+        .header { margin-bottom: 48px; }
+        .header-title { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+        .header-title h1 { font-size: 48px; font-weight: bold; }
+        .header-subtitle { font-size: 20px; color: #c084fc; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; margin-bottom: 32px; }
+        .stat-card { padding: 24px; border-radius: 8px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
+        .stat-blue { background: linear-gradient(to bottom right, #3b82f6, #1e40af); }
+        .stat-purple { background: linear-gradient(to bottom right, #a855f7, #6d28d9); }
+        .stat-pink { background: linear-gradient(to bottom right, #ec4899, #be185d); }
+        .stat-label { font-size: 12px; font-weight: 600; margin-bottom: 8px; color: #dbeafe; }
+        .stat-purple .stat-label { color: #e9d5ff; }
+        .stat-pink .stat-label { color: #fbcfe8; }
+        .stat-value { font-size: 36px; font-weight: bold; }
+        .tab-nav { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 32px; }
+        .tab-btn { padding: 8px 24px; border-radius: 8px; font-weight: 600; border: none; cursor: pointer; background: #334155; color: white; transition: all 0.3s; font-size: 14px; }
+        .tab-btn.active { background: #fbbf24; color: #111827; }
+        .tab-btn:hover { transform: translateY(-2px); }
+        .content { display: none; }
+        .content.active { display: block; }
+        .card { background: #1e293b; border-radius: 8px; padding: 32px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); margin-bottom: 32px; }
+        .card-title { font-size: 24px; font-weight: bold; margin-bottom: 24px; color: #fbbf24; }
+        .film-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px; }
+        .film-card { background: #334155; padding: 16px; border-radius: 8px; text-align: center; cursor: pointer; transition: all 0.3s; }
+        .film-card:hover { background: #475569; }
+        .film-emoji { font-size: 24px; margin-bottom: 8px; }
+        .film-title { font-size: 14px; font-weight: 600; line-height: 1.4; }
+        .film-votes { color: #fbbf24; font-weight: bold; margin-top: 8px; }
+        .genre-list { display: flex; flex-direction: column; gap: 12px; }
+        .genre-item { display: flex; justify-content: space-between; margin-bottom: 8px; }
+        .genre-label { font-weight: 600; }
+        .genre-count { color: #fbbf24; }
+        .genre-bar-container { width: 100%; background: #334155; border-radius: 9999px; height: 12px; overflow: hidden; }
+        .genre-bar { height: 12px; border-radius: 9999px; transition: all 0.3s; }
+        .hall-of-fame-list { display: flex; flex-direction: column; gap: 12px; }
+        .hall-entry { display: flex; align-items: flex-start; gap: 16px; padding: 16px; background: #334155; border-radius: 8px; cursor: pointer; transition: all 0.3s; }
+        .hall-entry:hover { background: #475569; }
+        .hall-rank { font-size: 24px; }
+        .hall-content { flex: 1; }
+        .hall-title { font-weight: bold; font-size: 18px; }
+        .hall-description { font-size: 14px; color: #d1d5db; }
+        .hall-votes { color: #fbbf24; font-size: 12px; font-weight: 600; margin-top: 8px; }
+        .two-column { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 32px; }
+        .chart-container { position: relative; height: 400px; margin-bottom: 32px; }
+        .timeline-chart { height: 400px; }
+    </style>
 </head>
 <body>
 <div class="container">
-
+    <!-- Header -->
     <div class="header">
-        <h1>DigiTech Film Collection</h1>
-        <p class="header-subtitle"></p>
+        <div class="header-title">
+            <span style="font-size: 40px;">🎬</span>
+            <h1>DigiTech Film Collection</h1>
+        </div>
+        <p class="header-subtitle">Analyzing team favorites</p>
     </div>
 
+    <!-- Stats -->
     <div class="stats-grid">
-        <div class="stat-card">
+        <div class="stat-card stat-blue">
             <div class="stat-label">Total Films</div>
-            <div class="stat-value" id="totalFilms">0</div>
+            <div class="stat-value">0</div>
         </div>
-        <div class="stat-card">
+        <div class="stat-card stat-purple">
             <div class="stat-label">Unique Films</div>
-            <div class="stat-value" id="uniqueFilms">0</div>
+            <div class="stat-value">0</div>
         </div>
-        <div class="stat-card">
-            <div class="stat-label">Total Responses</div>
-            <div class="stat-value" id="totalResponses">0</div>
+        <div class="stat-card stat-pink">
+            <div class="stat-label">Team Members</div>
+            <div class="stat-value">0</div>
         </div>
     </div>
 
+    <!-- Tabs -->
     <div class="tab-nav">
         <button class="tab-btn active" onclick="switchTab('overview', event)">Overview</button>
         <button class="tab-btn" onclick="switchTab('genres', event)">Genres</button>
         <button class="tab-btn" onclick="switchTab('timeline', event)">Timeline</button>
         <button class="tab-btn" onclick="switchTab('favorites', event)">Favorites</button>
-        <button class="tab-btn" onclick="switchTab('funfacts', event)">Fun Facts</button>
     </div>
 
+    <!-- Overview -->
     <div id="overview" class="content active">
-        <div class="chart-container">
-            <canvas id="barChart"></canvas>
+        <div class="card">
+            <h2 class="card-title">Top Films Selected</h2>
+            <div class="chart-container">
+                <canvas id="barChart"></canvas>
+            </div>
+            <div class="film-grid"></div>
         </div>
-        <div class="film-grid"></div>
     </div>
 
+    <!-- Genres -->
     <div id="genres" class="content">
-        <div class="chart-container">
-            <canvas id="pieChart"></canvas>
+        <div class="two-column">
+            <div class="card">
+                <h2 class="card-title">Genre Breakdown</h2>
+                <div class="chart-container">
+                    <canvas id="pieChart"></canvas>
+                </div>
+            </div>
+            <div class="card">
+                <h2 class="card-title">Genre Statistics</h2>
+                <div class="genre-list"></div>
+            </div>
         </div>
-        <div class="genre-list"></div>
     </div>
 
+    <!-- Timeline -->
     <div id="timeline" class="content">
-        <div class="chart-container">
-            <canvas id="lineChart"></canvas>
+        <div class="card">
+            <h2 class="card-title">Films Through the Decades</h2>
+            <div class="chart-container">
+                <canvas id="lineChart"></canvas>
+            </div>
+            <p style="color: #d1d5db; text-align: center;">The team's taste spans decades!</p>
         </div>
     </div>
 
+    <!-- Favorites -->
     <div id="favorites" class="content">
-        <div class="hall-of-fame-list"></div>
+        <div class="card">
+            <h2 class="card-title">🏆 Hall of Fame</h2>
+            <div class="hall-of-fame-list"></div>
+        </div>
     </div>
 
-    <div id="funfacts" class="content">
-        <div class="fun-facts-grid"></div>
+    <!-- Footer -->
+    <div class="footer">
+        <p>🎬 Survey Date: August - October 2025</p>
     </div>
-
 </div>
 
 <script>
@@ -92,114 +146,115 @@ let barChart, pieChart, lineChart;
 let surveyData = null;
 
 async function loadData() {
-    const response = await fetch('film-data.json');
-    surveyData = await response.json();
+    try {
+        const response = await fetch('film-data.json');
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        surveyData = await response.json();
+    } catch (error) {
+        console.error('Failed to load JSON:', error);
+        return;
+    }
     initializeApp();
 }
 
 function initializeApp() {
-    document.querySelector('.header-subtitle').textContent = surveyData.survey.description;
-    document.getElementById('totalFilms').textContent = surveyData.survey.totalFilms;
-    document.getElementById('uniqueFilms').textContent = surveyData.survey.uniqueFilms;
-    document.getElementById('totalResponses').textContent = surveyData.survey.totalResponses;
-
-    populateFilms();
-    populateGenres();
-    populateHallOfFame();
-    populateFunFacts();
+    populateUI();
     initializeCharts();
 }
 
-function populateFilms() {
-    const grid = document.querySelector('.film-grid');
-    grid.innerHTML = surveyData.films.map(f => `
+function populateUI() {
+    document.querySelector('.header-subtitle').textContent = surveyData.survey.description;
+    const stats = document.querySelectorAll('.stat-value');
+    stats[0].textContent = surveyData.survey.totalFilms;
+    stats[1].textContent = surveyData.survey.uniqueFilms;
+    stats[2].textContent = surveyData.survey.totalResponses;
+
+    // Film grid
+    const filmGrid = document.querySelector('.film-grid');
+    const topFilms = surveyData.films.slice(0,8);
+    filmGrid.innerHTML = topFilms.map(f => `
         <div class="film-card">
             <div class="film-emoji">${f.emoji}</div>
             <div class="film-title">${f.title}</div>
             <div class="film-votes">${f.votes} votes</div>
         </div>
     `).join('');
-}
 
-function populateGenres() {
-    const list = document.querySelector('.genre-list');
-    list.innerHTML = surveyData.genres.map(g => `
+    // Genres
+    const genreList = document.querySelector('.genre-list');
+    genreList.innerHTML = surveyData.genres.map(g => `
         <div>
             <div class="genre-item">
-                <span>${g.name}</span>
-                <span style="color:#fbbf24">${g.count} films</span>
+                <span class="genre-label">${g.name}</span>
+                <span class="genre-count">${g.count} films</span>
+            </div>
+            <div class="genre-bar-container">
+                <div class="genre-bar" style="background: ${g.color}; width: ${g.count}%;"></div>
+            </div>
+        </div>
+    `).join('');
+
+    // Hall of Fame
+    const hallOfFameList = document.querySelector('.hall-of-fame-list');
+    hallOfFameList.innerHTML = surveyData.hallOfFame.map(e => `
+        <div class="hall-entry">
+            <span class="hall-rank">${e.rank}</span>
+            <div class="hall-content">
+                <div class="hall-title">${e.film}</div>
+                <div class="hall-description">${e.description}</div>
+                <div class="hall-votes">Voted by ${e.votes} team members</div>
             </div>
         </div>
     `).join('');
 }
 
-function populateHallOfFame() {
-    const list = document.querySelector('.hall-of-fame-list');
-    list.innerHTML = surveyData.hallOfFame.map(e => `
-        <div>
-            <strong>${e.rank} ${e.film}</strong> - ${e.description} (${e.votes} votes)
-        </div>
-    `).join('');
-}
-
-function populateFunFacts() {
-    const grid = document.querySelector('.fun-facts-grid');
-    grid.innerHTML = surveyData.funFacts.map(f => `
-        <div>
-            <strong>${f.title}</strong>: ${f.fact}
-        </div>
-    `).join('');
-}
-
 function initializeCharts() {
+    initBarChart();
+    initPieChart();
+    initLineChart();
+}
+
+function initBarChart() {
+    const ctx = document.getElementById('barChart');
+    if (!ctx || !surveyData) return;
     const topFilms = surveyData.films.slice(0,8);
-
-    const barCtx = document.getElementById('barChart');
-    barChart = new Chart(barCtx, {
-        type: 'bar',
-        data: { labels: topFilms.map(f => f.title), datasets: [{ label: 'Votes', data: topFilms.map(f => f.votes), backgroundColor:'#fbbf24' }] }
+    barChart = new Chart(ctx, {
+        type:'bar',
+        data:{ labels: topFilms.map(f => f.title), datasets:[{ label:'Votes', data: topFilms.map(f => f.votes), backgroundColor:'#fbbf24', borderColor:'#f59e0b', borderWidth:2, borderRadius:8 }] },
+        options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{ display:false } }, scales:{ y:{ beginAtZero:true, ticks:{ color:'#9ca3af', font:{ size:12 } }, grid:{ color:'#334155', drawBorder:false } }, x:{ ticks:{ color:'#9ca3af', font:{ size:11 } }, grid:{ display:false } } } }
     });
+}
 
-    const pieCtx = document.getElementById('pieChart');
-    pieChart = new Chart(pieCtx, {
-        type: 'doughnut',
-        data: { labels: surveyData.genres.map(g => g.name), datasets:[{ data: surveyData.genres.map(g => g.count), backgroundColor: surveyData.genres.map(g => g.color) }] }
+function initPieChart() {
+    const ctx = document.getElementById('pieChart');
+    if (!ctx || !surveyData) return;
+    pieChart = new Chart(ctx, {
+        type:'doughnut',
+        data:{ labels: surveyData.genres.map(g=>g.name), datasets:[{ data: surveyData.genres.map(g=>g.count), backgroundColor: surveyData.genres.map(g=>g.color), borderColor:'#1e293b', borderWidth:2 }] },
+        options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{ position:'bottom', labels:{ color:'#d1d5db', padding:15, font:{ size:12 } } } } }
     });
+}
 
-const lineCtx = document.getElementById('lineChart');
-lineChart = new Chart(lineCtx, {
-    type:'line',
-    data: { 
-        labels: surveyData.timeline.map(t => t.year), 
-        datasets:[{ 
-            label:'Films', 
-            data: surveyData.timeline.map(t => t.count), 
-            borderColor:'#fbbf24', 
-            backgroundColor:'rgba(251,191,36,0.1)',
-            fill:true,
-            tension:0.4,
-            pointRadius:6
-        }] 
-    },
-    options: {
-        responsive:true,
-        maintainAspectRatio:false,
-        scales: {
-            y: { beginAtZero:true, ticks:{ color:'#d1d5db' } },
-            x: { ticks:{ color:'#d1d5db' } }
-        },
-        plugins: { legend:{ display:false } }
-    }
-});
-
+function initLineChart() {
+    const ctx = document.getElementById('lineChart');
+    if (!ctx || !surveyData) return;
+    lineChart = new Chart(ctx, {
+        type:'line',
+        data:{ labels: surveyData.timeline.map(t=>t.year), datasets:[{ label:'Films', data: surveyData.timeline.map(t=>t.count), borderColor:'#fbbf24', backgroundColor:'rgba(251,191,36,0.1)', borderWidth:3, pointBackgroundColor:'#fbbf24', pointBorderColor:'#f59e0b', pointBorderWidth:2, pointRadius:6, fill:true, tension:0.4 }] },
+        options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{ display:false } }, scales:{ y:{ beginAtZero:true, ticks:{ color:'#9ca3af', font:{ size:12 } }, grid:{ color:'#334155', drawBorder:false } }, x:{ ticks:{ color:'#9ca3af', font:{ size:12 } }, grid:{ display:false } } } }
+    });
 }
 
 function switchTab(tabName, event) {
     document.querySelectorAll('.content').forEach(c=>c.classList.remove('active'));
     document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
     document.getElementById(tabName).classList.add('active');
-    event?.target?.classList.add('active');
-    setTimeout(()=>{ barChart?.resize(); pieChart?.resize(); lineChart?.resize(); },100);
+    event.currentTarget.classList.add('active');
+    setTimeout(()=>{
+        if(tabName==='overview'&&barChart) barChart.resize();
+        if(tabName==='genres'&&pieChart) pieChart.resize();
+        if(tabName==='timeline'&&lineChart) lineChart.resize();
+    },100);
 }
 
 document.addEventListener('DOMContentLoaded', loadData);
