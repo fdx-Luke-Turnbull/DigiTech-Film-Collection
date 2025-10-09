@@ -4,9 +4,9 @@
     "description": "Team members' favorite films survey",
     "startDate": "2025-08-18",
     "endDate": "2025-10-08",
-    "totalResponses": 35,
+    "totalResponses": 1,
     "totalFilms": 140,
-    "uniqueFilms": 89
+    "uniqueFilms": 95
   },
   "films": [
     {
@@ -15,19 +15,9 @@
       "emoji": "🕰️"
     },
     {
-      "title": "The Matrix",
+      "title": "Blade Runner",
       "votes": 3,
-      "emoji": "💊"
-    },
-    {
-      "title": "Predator",
-      "votes": 3,
-      "emoji": "🔫"
-    },
-    {
-      "title": "Interstellar",
-      "votes": 3,
-      "emoji": "🚀"
+      "emoji": "🤖"
     },
     {
       "title": "Forrest Gump",
@@ -35,19 +25,24 @@
       "emoji": "🏃"
     },
     {
-      "title": "The Shawshank Redemption",
+      "title": "Interstellar",
       "votes": 3,
-      "emoji": "⛓️"
-    },
-    {
-      "title": "Blade Runner",
-      "votes": 3,
-      "emoji": "🤖"
+      "emoji": "🚀"
     },
     {
       "title": "Scott Pilgrim vs The World",
       "votes": 3,
       "emoji": "🎮"
+    },
+    {
+      "title": "The Matrix",
+      "votes": 3,
+      "emoji": "💊"
+    },
+    {
+      "title": "Avengers",
+      "votes": 2,
+      "emoji": "🦸"
     },
     {
       "title": "Blade Runner 2049",
@@ -60,14 +55,14 @@
       "emoji": "⚔️"
     },
     {
-      "title": "Top Gun (1986)",
+      "title": "Predator (1987)",
       "votes": 2,
-      "emoji": "✈️"
+      "emoji": "🔫"
     },
     {
-      "title": "The Dark Knight",
+      "title": "Shutter Island",
       "votes": 2,
-      "emoji": "🦇"
+      "emoji": "🕵️"
     },
     {
       "title": "Terminator 2",
@@ -75,30 +70,35 @@
       "emoji": "🤖"
     },
     {
-      "title": "Avengers",
+      "title": "The Dark Knight",
       "votes": 2,
-      "emoji": "🦸"
+      "emoji": "🦇"
     },
     {
-      "title": "Mad Max: Fury Road",
+      "title": "The Martian",
       "votes": 2,
-      "emoji": "🏎️"
+      "emoji": "🚀"
+    },
+    {
+      "title": "Top Gun (1986)",
+      "votes": 2,
+      "emoji": "✈️"
     }
   ],
   "genres": [
     {
       "name": "Sci-Fi",
-      "count": 28,
+      "count": 27,
       "color": "#3b82f6"
     },
     {
       "name": "Action",
-      "count": 24,
+      "count": 25,
       "color": "#ef4444"
     },
     {
       "name": "Drama",
-      "count": 16,
+      "count": 20,
       "color": "#8b5cf6"
     },
     {
@@ -113,30 +113,30 @@
     },
     {
       "name": "Other",
-      "count": 20,
+      "count": 46,
       "color": "#6b7280"
     }
   ],
   "timeline": [
     {
       "year": "1980s",
-      "count": 8
+      "count": 21
     },
     {
       "year": "1990s",
-      "count": 18
+      "count": 22
     },
     {
       "year": "2000s",
-      "count": 24
+      "count": 22
     },
     {
       "year": "2010s",
-      "count": 32
+      "count": 23
     },
     {
       "year": "2020s",
-      "count": 8
+      "count": 2
     }
   ],
   "hallOfFame": [
@@ -148,21 +148,9 @@
     },
     {
       "rank": "🥈",
-      "film": "The Matrix",
+      "film": "Blade Runner",
       "votes": 3,
-      "description": "The one that keeps us thinking..."
-    },
-    {
-      "rank": "🥈",
-      "film": "Predator",
-      "votes": 3,
-      "description": "Action at its finest (THAT scene with Schwarzenegger)"
-    },
-    {
-      "rank": "🥈",
-      "film": "Interstellar",
-      "votes": 3,
-      "description": "Epic scale meets emotional depth"
+      "description": "A sci-fi masterpiece blending noir with the future"
     },
     {
       "rank": "🥈",
@@ -172,23 +160,35 @@
     },
     {
       "rank": "🥈",
-      "film": "The Shawshank Redemption",
+      "film": "Interstellar",
       "votes": 3,
-      "description": "Hope is a powerful thing"
+      "description": "Epic scale meets emotional depth"
+    },
+    {
+      "rank": "🥈",
+      "film": "Scott Pilgrim vs The World",
+      "votes": 3,
+      "description": "Stylish action-comedy that hits all the right notes"
+    },
+    {
+      "rank": "🥈",
+      "film": "The Matrix",
+      "votes": 3,
+      "description": "The one that keeps us thinking..."
     }
   ],
   "funFacts": [
     {
       "title": "Sci-Fi Supremacy",
-      "fact": "Over 35% of film picks are sci-fi - your team is living in the future! 🚀"
+      "fact": "Over 19% of film picks are sci-fi - your team is living in the future! 🚀"
     },
     {
       "title": "Time Travel Champion",
-      "fact": "Back to the Future reigns supreme with 4 votes - the team's unanimous favorite!"
+      "fact": "Back to the Future reigns supreme with 4 votes - the team's favorite!"
     },
     {
       "title": "The Action Squad",
-      "fact": "24 action films selected - your team knows how to keep things exciting! 💥"
+      "fact": "25 action films selected - your team knows how to keep things exciting! 💥"
     },
     {
       "title": "Hidden Gems",
@@ -200,7 +200,7 @@
     },
     {
       "title": "Feel-Good Factor",
-      "fact": "Shawshank, Forrest Gump & multiple comedies show we balance thrills with heart ❤️"
+      "fact": "Forrest Gump, Shawshank & multiple comedies show we balance thrills with heart ❤️"
     }
   ]
 }
