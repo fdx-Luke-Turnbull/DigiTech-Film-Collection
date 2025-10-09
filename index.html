@@ -14,8 +14,9 @@
     .stat-label { font-size: 12px; color: #cbd5e1; }
     .stat-value { font-size: 24px; font-weight: bold; }
     .tab-nav { display: flex; gap: 8px; margin-bottom: 16px; }
-    .tab-btn { padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; background: #475569; color: white; }
+    .tab-btn { padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; background: #475569; color: white; transition: 0.2s; }
     .tab-btn.active { background: #fbbf24; color: #111827; }
+    .tab-btn:hover { transform: translateY(-2px); }
     .content { display: none; }
     .content.active { display: block; }
     .chart-container { height: 400px; margin-bottom: 16px; }
@@ -24,6 +25,8 @@
     .film-emoji { font-size: 24px; }
     .film-title { font-weight: bold; margin-top: 8px; }
     .film-votes { color: #fbbf24; margin-top: 4px; font-size: 12px; }
+    .genre-list { margin-top: 16px; }
+    .genre-item { display: flex; justify-content: space-between; margin-bottom: 4px; }
 </style>
 </head>
 <body>
@@ -54,7 +57,6 @@
         <button class="tab-btn" onclick="switchTab('genres', event)">Genres</button>
         <button class="tab-btn" onclick="switchTab('timeline', event)">Timeline</button>
         <button class="tab-btn" onclick="switchTab('favorites', event)">Favorites</button>
-        <button class="tab-btn" onclick="switchTab('funfacts', event)">Fun Facts</button>
     </div>
 
     <div id="overview" class="content active">
@@ -81,10 +83,6 @@
         <div class="hall-of-fame-list"></div>
     </div>
 
-    <div id="funfacts" class="content">
-        <div class="fun-facts-grid"></div>
-    </div>
-
 </div>
 
 <script>
@@ -106,7 +104,6 @@ function initializeApp() {
     populateFilms();
     populateGenres();
     populateHallOfFame();
-    populateFunFacts();
     initializeCharts();
 }
 
@@ -124,11 +121,9 @@ function populateFilms() {
 function populateGenres() {
     const list = document.querySelector('.genre-list');
     list.innerHTML = surveyData.genres.map(g => `
-        <div>
-            <div class="genre-item">
-                <span>${g.name}</span>
-                <span style="color:#fbbf24">${g.count} films</span>
-            </div>
+        <div class="genre-item">
+            <span>${g.name}</span>
+            <span style="color:#fbbf24">${g.count} films</span>
         </div>
     `).join('');
 }
@@ -142,34 +137,34 @@ function populateHallOfFame() {
     `).join('');
 }
 
-function populateFunFacts() {
-    const grid = document.querySelector('.fun-facts-grid');
-    grid.innerHTML = surveyData.funFacts.map(f => `
-        <div>
-            <strong>${f.title}</strong>: ${f.fact}
-        </div>
-    `).join('');
-}
-
 function initializeCharts() {
     const topFilms = surveyData.films.slice(0,8);
 
-    const barCtx = document.getElementById('barChart');
-    barChart = new Chart(barCtx, {
+    barChart = new Chart(document.getElementById('barChart'), {
         type: 'bar',
-        data: { labels: topFilms.map(f => f.title), datasets: [{ label: 'Votes', data: topFilms.map(f => f.votes), backgroundColor:'#fbbf24' }] }
+        data: {
+            labels: topFilms.map(f => f.title),
+            datasets: [{ label: 'Votes', data: topFilms.map(f => f.votes), backgroundColor:'#fbbf24' }]
+        },
+        options: { responsive:true, maintainAspectRatio:false }
     });
 
-    const pieCtx = document.getElementById('pieChart');
-    pieChart = new Chart(pieCtx, {
+    pieChart = new Chart(document.getElementById('pieChart'), {
         type: 'doughnut',
-        data: { labels: surveyData.genres.map(g => g.name), datasets:[{ data: surveyData.genres.map(g => g.count), backgroundColor: surveyData.genres.map(g => g.color) }] }
+        data: {
+            labels: surveyData.genres.map(g => g.name),
+            datasets:[{ data: surveyData.genres.map(g => g.count), backgroundColor: surveyData.genres.map(g => g.color) }]
+        },
+        options: { responsive:true, maintainAspectRatio:false }
     });
 
-    const lineCtx = document.getElementById('lineChart');
-    lineChart = new Chart(lineCtx, {
+    lineChart = new Chart(document.getElementById('lineChart'), {
         type:'line',
-        data: { labels: surveyData.timeline.map(t=>t.year), datasets:[{ label:'Films', data: surveyData.timeline.map(t=>t.count), borderColor:'#fbbf24', fill:false }] }
+        data: {
+            labels: surveyData.timeline.map(t=>t.year),
+            datasets:[{ label:'Films', data: surveyData.timeline.map(t=>t.count), borderColor:'#fbbf24', backgroundColor:'rgba(251,191,36,0.2)', fill:true }]
+        },
+        options: { responsive:true, maintainAspectRatio:false }
     });
 }
 
@@ -177,7 +172,7 @@ function switchTab(tabName, event) {
     document.querySelectorAll('.content').forEach(c=>c.classList.remove('active'));
     document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
     document.getElementById(tabName).classList.add('active');
-    event?.target?.classList.add('active');
+    event.target.classList.add('active');
     setTimeout(()=>{ barChart?.resize(); pieChart?.resize(); lineChart?.resize(); },100);
 }
 
