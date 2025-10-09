@@ -10,79 +10,574 @@
   },
   "films": [
     {
-      "title": "Back to the Future",
-      "votes": 4,
-      "emoji": "🕰️"
+      "title": "10 Things I Hate About You (1999)",
+      "votes": 1,
+      "emoji": "💔"
     },
     {
-      "title": "Blade Runner",
-      "votes": 3,
-      "emoji": "🤖"
-    },
-    {
-      "title": "Forrest Gump",
-      "votes": 3,
-      "emoji": "🏃"
-    },
-    {
-      "title": "Interstellar",
-      "votes": 3,
+      "title": "2001: A Space Odyssey (1968)",
+      "votes": 1,
       "emoji": "🚀"
     },
     {
-      "title": "Scott Pilgrim vs The World",
-      "votes": 3,
-      "emoji": "🎮"
+      "title": "A Walk to Remember (2002)",
+      "votes": 1,
+      "emoji": "🌹"
     },
     {
-      "title": "The Matrix",
-      "votes": 3,
-      "emoji": "💊"
+      "title": "Alien (1979)",
+      "votes": 1,
+      "emoji": "👽"
     },
     {
-      "title": "Avengers",
+      "title": "Aliens (1986)",
+      "votes": 1,
+      "emoji": "👽"
+    },
+    {
+      "title": "Apocalypse Now (1979)",
+      "votes": 1,
+      "emoji": "⚔️"
+    },
+    {
+      "title": "Armageddon (1998)",
+      "votes": 1,
+      "emoji": "💫"
+    },
+    {
+      "title": "Army of Darkness (1992)",
+      "votes": 1,
+      "emoji": "🧟"
+    },
+    {
+      "title": "Arrival (2016)",
+      "votes": 1,
+      "emoji": "🛸"
+    },
+    {
+      "title": "Austin Powers 2: The Spy Who Shagged Me (1999)",
+      "votes": 1,
+      "emoji": "🕵️"
+    },
+    {
+      "title": "Avengers (2012)",
       "votes": 2,
       "emoji": "🦸"
     },
     {
-      "title": "Blade Runner 2049",
+      "title": "Avengers: Infinity War (2018)",
+      "votes": 1,
+      "emoji": "🦸"
+    },
+    {
+      "title": "Back to the Future (1985)",
+      "votes": 4,
+      "emoji": "🕰️"
+    },
+    {
+      "title": "Batteries Not Included (1987)",
+      "votes": 1,
+      "emoji": "🤖"
+    },
+    {
+      "title": "Blade Runner (1982)",
+      "votes": 3,
+      "emoji": "🤖"
+    },
+    {
+      "title": "Blade Runner 2049 (2017)",
       "votes": 2,
       "emoji": "🤖"
     },
     {
-      "title": "Braveheart",
+      "title": "Blues Brothers (1980)",
+      "votes": 1,
+      "emoji": "🎵"
+    },
+    {
+      "title": "Boogie Nights (1997)",
+      "votes": 1,
+      "emoji": "🎬"
+    },
+    {
+      "title": "Bourne Identity (2002)",
+      "votes": 1,
+      "emoji": "🕵️"
+    },
+    {
+      "title": "Braveheart (1995)",
       "votes": 2,
       "emoji": "⚔️"
     },
     {
-      "title": "Predator (1987)",
+      "title": "Cast Away (2000)",
+      "votes": 1,
+      "emoji": "🏝️"
+    },
+    {
+      "title": "Chungking Express (1994)",
+      "votes": 1,
+      "emoji": "🌃"
+    },
+    {
+      "title": "Dances with Wolves (1990)",
+      "votes": 1,
+      "emoji": "🐴"
+    },
+    {
+      "title": "Drive (2011)",
+      "votes": 1,
+      "emoji": "🚗"
+    },
+    {
+      "title": "Dune (1984/2021)",
+      "votes": 1,
+      "emoji": "🪐"
+    },
+    {
+      "title": "Edge of Tomorrow (2014)",
+      "votes": 1,
+      "emoji": "⚡"
+    },
+    {
+      "title": "Epic Movie (2007)",
+      "votes": 1,
+      "emoji": "🎭"
+    },
+    {
+      "title": "Everything, Everywhere, All at Once (2022)",
+      "votes": 1,
+      "emoji": "🌀"
+    },
+    {
+      "title": "Fight Club (1999)",
+      "votes": 1,
+      "emoji": "👊"
+    },
+    {
+      "title": "Flight of the Navigator (1986)",
+      "votes": 1,
+      "emoji": "🛸"
+    },
+    {
+      "title": "Forrest Gump (1994)",
+      "votes": 3,
+      "emoji": "🏃"
+    },
+    {
+      "title": "Free Solo (2018)",
+      "votes": 1,
+      "emoji": "🧗"
+    },
+    {
+      "title": "Gattaca (1997)",
+      "votes": 1,
+      "emoji": "🧬"
+    },
+    {
+      "title": "Ghost in the Shell (1995)",
+      "votes": 1,
+      "emoji": "🤖"
+    },
+    {
+      "title": "Harry Potter and The Prisoner of Azkaban (2004)",
+      "votes": 1,
+      "emoji": "🪄"
+    },
+    {
+      "title": "Heat (1995)",
+      "votes": 1,
+      "emoji": "🔥"
+    },
+    {
+      "title": "Home Alone (1990)",
+      "votes": 1,
+      "emoji": "🏠"
+    },
+    {
+      "title": "Hot Fuzz (2007)",
+      "votes": 1,
+      "emoji": "🚔"
+    },
+    {
+      "title": "Idiocracy (2006)",
+      "votes": 1,
+      "emoji": "📺"
+    },
+    {
+      "title": "Il Postino (1994)",
+      "votes": 1,
+      "emoji": "📮"
+    },
+    {
+      "title": "Inglourious Basterds (2009)",
+      "votes": 1,
+      "emoji": "🎖️"
+    },
+    {
+      "title": "Interstellar (2014)",
+      "votes": 3,
+      "emoji": "🚀"
+    },
+    {
+      "title": "IP Man (2008)",
+      "votes": 1,
+      "emoji": "🥋"
+    },
+    {
+      "title": "Iron Man (2008)",
+      "votes": 1,
+      "emoji": "🦸"
+    },
+    {
+      "title": "Italian Job (1969/2003)",
+      "votes": 1,
+      "emoji": "🚗"
+    },
+    {
+      "title": "Jason Bourne (all)",
+      "votes": 1,
+      "emoji": "🕵️"
+    },
+    {
+      "title": "Kingsman (all)",
+      "votes": 1,
+      "emoji": "🎩"
+    },
+    {
+      "title": "Knockaround Guys (2001)",
+      "votes": 1,
+      "emoji": "🤜"
+    },
+    {
+      "title": "Kung Fu Hustle (2004)",
+      "votes": 1,
+      "emoji": "🥋"
+    },
+    {
+      "title": "Legally Blonde (2001)",
+      "votes": 1,
+      "emoji": "💗"
+    },
+    {
+      "title": "Lethal Weapon (all)",
+      "votes": 1,
+      "emoji": "💣"
+    },
+    {
+      "title": "Life of Brian (1979)",
+      "votes": 1,
+      "emoji": "😂"
+    },
+    {
+      "title": "Mad Max: Fury Road (2015)",
       "votes": 2,
+      "emoji": "🏎️"
+    },
+    {
+      "title": "Mallrats (1995)",
+      "votes": 1,
+      "emoji": "🛍️"
+    },
+    {
+      "title": "Mamma Mia (2008)",
+      "votes": 1,
+      "emoji": "🎵"
+    },
+    {
+      "title": "Memento (2000)",
+      "votes": 1,
+      "emoji": "🧠"
+    },
+    {
+      "title": "Mission Impossible (1996)",
+      "votes": 1,
+      "emoji": "🕵️"
+    },
+    {
+      "title": "Monty Python & The Holy Grail (1975)",
+      "votes": 1,
+      "emoji": "⚔️"
+    },
+    {
+      "title": "Office Space (1999)",
+      "votes": 1,
+      "emoji": "💼"
+    },
+    {
+      "title": "Parasite (2019)",
+      "votes": 1,
+      "emoji": "🏠"
+    },
+    {
+      "title": "Perfume: The Story of a Murderer (2006)",
+      "votes": 1,
+      "emoji": "👃"
+    },
+    {
+      "title": "Pitch Black (2000)",
+      "votes": 1,
+      "emoji": "🌙"
+    },
+    {
+      "title": "Porco Rosso (1992)",
+      "votes": 1,
+      "emoji": "✈️"
+    },
+    {
+      "title": "Predator (1987)",
+      "votes": 3,
       "emoji": "🔫"
     },
     {
-      "title": "Shutter Island",
+      "title": "Pretty Woman (1990)",
+      "votes": 1,
+      "emoji": "💃"
+    },
+    {
+      "title": "Princess Bride (1987)",
+      "votes": 2,
+      "emoji": "👑"
+    },
+    {
+      "title": "Pulp Fiction (1994)",
+      "votes": 1,
+      "emoji": "🔫"
+    },
+    {
+      "title": "Remember the Titans (2000)",
+      "votes": 1,
+      "emoji": "🏈"
+    },
+    {
+      "title": "Reservoir Dogs (1992)",
+      "votes": 1,
+      "emoji": "🐕"
+    },
+    {
+      "title": "Scooby-Doo (2002)",
+      "votes": 1,
+      "emoji": "🐕‍🦺"
+    },
+    {
+      "title": "Scott Pilgrim vs The World (2010)",
+      "votes": 3,
+      "emoji": "🎮"
+    },
+    {
+      "title": "Shawshank Redemption (1994)",
+      "votes": 3,
+      "emoji": "⛓️"
+    },
+    {
+      "title": "Shooter (2007)",
+      "votes": 1,
+      "emoji": "🔫"
+    },
+    {
+      "title": "Shutter Island (2010)",
       "votes": 2,
       "emoji": "🕵️"
     },
     {
-      "title": "Terminator 2",
+      "title": "Singin' in the Rain (1952)",
+      "votes": 1,
+      "emoji": "🎬"
+    },
+    {
+      "title": "Sleepy Hollow (1999)",
+      "votes": 1,
+      "emoji": "🎃"
+    },
+    {
+      "title": "Snatch (2000)",
+      "votes": 1,
+      "emoji": "💰"
+    },
+    {
+      "title": "Spaceballs (1987)",
+      "votes": 1,
+      "emoji": "🚀"
+    },
+    {
+      "title": "Spider-Man: Into the Spider-Verse (2018)",
+      "votes": 1,
+      "emoji": "🕷️"
+    },
+    {
+      "title": "Spirited Away (2001)",
+      "votes": 1,
+      "emoji": "🐉"
+    },
+    {
+      "title": "Star Trek VI: The Undiscovered Country (1991)",
+      "votes": 1,
+      "emoji": "🚀"
+    },
+    {
+      "title": "Tenet (2020)",
+      "votes": 1,
+      "emoji": "⏱️"
+    },
+    {
+      "title": "Terminator 2: Judgment Day (1991)",
       "votes": 2,
       "emoji": "🤖"
     },
     {
-      "title": "The Dark Knight",
+      "title": "The Abyss (1989)",
+      "votes": 1,
+      "emoji": "🌊"
+    },
+    {
+      "title": "The Big Lebowski (1998)",
+      "votes": 1,
+      "emoji": "🍹"
+    },
+    {
+      "title": "The Big Year (2011)",
+      "votes": 1,
+      "emoji": "🐦"
+    },
+    {
+      "title": "The Book of Eli (2010)",
+      "votes": 1,
+      "emoji": "📖"
+    },
+    {
+      "title": "The Crow (1994)",
+      "votes": 1,
+      "emoji": "🐦"
+    },
+    {
+      "title": "The Dark Knight (2008)",
       "votes": 2,
       "emoji": "🦇"
     },
     {
-      "title": "The Martian",
+      "title": "The Empire Strikes Back (1980)",
+      "votes": 1,
+      "emoji": "⚔️"
+    },
+    {
+      "title": "The Godfather (1972)",
+      "votes": 1,
+      "emoji": "🎭"
+    },
+    {
+      "title": "The Good, The Bad & The Ugly (1966)",
+      "votes": 1,
+      "emoji": "🤠"
+    },
+    {
+      "title": "The Goonies (1985)",
+      "votes": 1,
+      "emoji": "🏴‍☠️"
+    },
+    {
+      "title": "The Grand Budapest Hotel (2014)",
+      "votes": 1,
+      "emoji": "🏨"
+    },
+    {
+      "title": "The Green Mile (1999)",
+      "votes": 1,
+      "emoji": "⚡"
+    },
+    {
+      "title": "The Lord of The Rings (2001-2003)",
+      "votes": 2,
+      "emoji": "💍"
+    },
+    {
+      "title": "The Man from Earth (2007)",
+      "votes": 1,
+      "emoji": "🧑"
+    },
+    {
+      "title": "The Martian (2015)",
       "votes": 2,
       "emoji": "🚀"
+    },
+    {
+      "title": "The Matrix (1999)",
+      "votes": 3,
+      "emoji": "💊"
+    },
+    {
+      "title": "The Mummy (1999)",
+      "votes": 1,
+      "emoji": "🪦"
+    },
+    {
+      "title": "The NeverEnding Story (1984)",
+      "votes": 1,
+      "emoji": "📚"
+    },
+    {
+      "title": "The Road (2009)",
+      "votes": 1,
+      "emoji": "🛣️"
+    },
+    {
+      "title": "The Shawshank Redemption (1994)",
+      "votes": 3,
+      "emoji": "⛓️"
+    },
+    {
+      "title": "The Silence of the Lambs (1991)",
+      "votes": 1,
+      "emoji": "🦋"
+    },
+    {
+      "title": "The Third Man (1949)",
+      "votes": 1,
+      "emoji": "🎬"
+    },
+    {
+      "title": "Thor (2011)",
+      "votes": 1,
+      "emoji": "⚡"
+    },
+    {
+      "title": "Titanic (1997)",
+      "votes": 1,
+      "emoji": "🚢"
+    },
+    {
+      "title": "To Wong Foo, Thanks for Everything! Julie Newmar (1995)",
+      "votes": 1,
+      "emoji": "🚐"
     },
     {
       "title": "Top Gun (1986)",
       "votes": 2,
       "emoji": "✈️"
+    },
+    {
+      "title": "Trainspotting (1996)",
+      "votes": 1,
+      "emoji": "🏃"
+    },
+    {
+      "title": "Wall-E (2008)",
+      "votes": 1,
+      "emoji": "🤖"
+    },
+    {
+      "title": "Wayne's World (1992)",
+      "votes": 1,
+      "emoji": "🎸"
+    },
+    {
+      "title": "Whiplash (2014)",
+      "votes": 1,
+      "emoji": "🥁"
+    },
+    {
+      "title": "X-Men Movies (2000-2019)",
+      "votes": 1,
+      "emoji": "🦸"
     }
   ],
   "genres": [
@@ -175,32 +670,6 @@
       "film": "The Matrix",
       "votes": 3,
       "description": "The one that keeps us thinking..."
-    }
-  ],
-  "funFacts": [
-    {
-      "title": "Sci-Fi Supremacy",
-      "fact": "Over 19% of film picks are sci-fi - your team is living in the future! 🚀"
-    },
-    {
-      "title": "Time Travel Champion",
-      "fact": "Back to the Future reigns supreme with 4 votes - the team's favorite!"
-    },
-    {
-      "title": "The Action Squad",
-      "fact": "25 action films selected - your team knows how to keep things exciting! 💥"
-    },
-    {
-      "title": "Hidden Gems",
-      "fact": "Several indie & cult classics suggest a sophisticated film taste 🎬"
-    },
-    {
-      "title": "Diversity Champion",
-      "fact": "Films span from classics to modern releases - respecting the classics AND the new"
-    },
-    {
-      "title": "Feel-Good Factor",
-      "fact": "Forrest Gump, Shawshank & multiple comedies show we balance thrills with heart ❤️"
     }
   ]
 }
