@@ -513,16 +513,15 @@
             try {
                 const response = await fetch('film-data.json');
                 if (!response.ok) {
-                    throw new Error('Failed to load data');
+                    throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 surveyData = await response.json();
-                initializeApp();
+                console.log('Data loaded successfully from film-data.json');
             } catch (error) {
-                console.error('Error loading data:', error);
-                // Fallback to hardcoded data if JSON fails to load
+                console.warn('Could not load film-data.json, using fallback data:', error.message);
                 loadFallbackData();
-                initializeApp();
             }
+            initializeApp();
         }
 
         function loadFallbackData() {
