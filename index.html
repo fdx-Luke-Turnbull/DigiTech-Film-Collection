@@ -479,8 +479,8 @@
         function populateUI() {
             document.querySelector('.header-subtitle').textContent = surveyData.survey.description;
             const stats = document.querySelectorAll('.stat-value');
-            stats[0].textContent = surveyData.survey.totalFilms;
-            stats[1].textContent = surveyData.survey.uniqueFilms;
+            stats[0].textContent = surveyData.films.reduce((sum, f) => sum + f.votes, 0);
+            stats[1].textContent = surveyData.uniqueFilmsList ? surveyData.uniqueFilmsList.length : 0;
             stats[2].textContent = surveyData.survey.totalResponses;
 
             // Film grid
