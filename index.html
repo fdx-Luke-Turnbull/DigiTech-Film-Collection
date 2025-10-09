@@ -480,7 +480,7 @@
             document.querySelector('.header-subtitle').textContent = surveyData.survey.description;
             const stats = document.querySelectorAll('.stat-value');
             stats[0].textContent = surveyData.films.reduce((sum, f) => sum + f.votes, 0);
-            stats[1].textContent = surveyData.uniqueFilmsList ? surveyData.uniqueFilmsList.length : 0;
+            stats[1].textContent = surveyData.films.length;
             stats[2].textContent = surveyData.survey.totalResponses;
 
             // Film grid
@@ -576,10 +576,12 @@
         }
 
         function populateFilmsList() {
-            if (!surveyData || !surveyData.uniqueFilmsList) return;
-
-            allFilms = [...surveyData.uniqueFilmsList];
-            allFilms.sort((a, b) => a.localeCompare(b));
+            if (!surveyData || !surveyData.films) return;
+            
+            allFilms = surveyData.films
+                .map(f => f.title)
+                .sort((a, b) => a.localeCompare(b));
+            
             displayFilms(allFilms);
         }
 
