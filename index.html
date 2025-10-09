@@ -452,72 +452,251 @@
     </div>
   </div>
 
-  <script>
+<script>
+    let barChart, pieChart, lineChart;
+    let surveyData = null;
     let allFilms = [];
     let currentSort = 'a-z';
 
+    async function loadData() {
+        try {
+            const response = await fetch('film-data.json');
+            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+            surveyData = await response.json();
+        } catch (error) {
+            console.error('Failed to load JSON:', error);
+            return;
+        }
+        initializeApp();
+    }
+
+    function initializeApp() {
+        populateUI();
+        initializeCharts();
+    }
+
+    function populateUI() {
+        // Header subtitle
+        document.querySelector('.header-subtitle').textContent = surveyData.survey.description;
+
+        // Stats
+        const stats = document.querySelectorAll('.stat-value');
+        stats[0].textContent = surveyData.survey.totalFilms;       // Total Films
+        stats[1].textContent = surveyData.survey.uniqueFilms;      // Unique Films
+        stats[2].textContent = surveyData.survey.totalResponses;   // Team Members
+
+        // Film grid - show top 8 by votes
+        const filmGrid = document.querySelector('.film-grid');
+        const topFilms = [...surveyData.films]
+            .sort((a, b) => b.votes - a.votes)
+            .slice(0, 8);
+        filmGrid.innerHTML = topFilms.map(f => `
+            <div class="film-card">
+                <div class="film-emoji">${f.emoji}</div>
+                <div class="film-title">${f.title}</div>
+                <div class="film-votes">${f.votes} vote${f.votes !== 1 ? 's' : ''}</div>
+            </div>
+        `).join('');
+
+        // Genres
+        const genreList = document.querySelector('.genre-list');
+        genreList.innerHTML = surveyData.genres.map(g => `
+            <div>
+                <div class="genre-item">
+                    <span class="genre-label">${g.name}</span>
+                    <span class="genre-count">${g.count} film${g.count !== 1 ? 's' : ''}</span>
+                </div>
+                <div class="genre-bar-container">
+                    <div class="genre-bar" style="background: ${g.color}; width: ${g.count}%;"></div>
+                </div>
+            </div>
+        `).join('');
+
+        // Hall of Fame
+        const hallOfFameList = document.querySelector('.hall-of-fame-list');
+        hallOfFameList.innerHTML = surveyData.hallOfFame.map(e => `
+            <div class="hall-entry">
+                <span class="hall-rank">${e.rank}</span>
+                <div class="hall-content">
+                    <div class="hall-title">${e.film}</div>
+                    <div class="hall-description">${e.description}</div>
+                    <div class="hall-votes">Voted by ${e.votes} team member${e.votes !== 1 ? 's' : ''}</div>
+                </div>
+            </div>
+        `).join('');
+
+        // Populate complete films list
+        populateFilmsList();
+    }
+
+    function initializeCharts() {
+        initBarChart();
+        initPieChart();
+        initLineChart();
+    }
+
+    function initBarChart() {
+        const ctx = document.getElementById('barChart');
+        if (!ctx || !surveyData) return;
+        const topFilms = [...surveyData.films]
+            .sort((a, b) => b.votes - a.votes)
+            .slice(0, 8);
+        barChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: topFilms.map(f => f.title),
+                datasets: [{
+                    label: 'Votes',
+                    data: topFilms.map(f => f.votes),
+                    backgroundColor: '#fbbf24',
+                    borderColor: '#f59e0b',
+                    borderWidth: 2,
+                    borderRadius: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: { beginAtZero: true, ticks: { color: '#9ca3af', font: { size: 12 } }, grid: { color: '#334155', drawBorder: false } },
+                    x: { ticks: { color: '#9ca3af', font: { size: 11 } }, grid: { display: false } }
+                }
+            }
+        });
+    }
+
+    function initPieChart() {
+        const ctx = document.getElementById('pieChart');
+        if (!ctx || !surveyData) return;
+        pieChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: surveyData.genres.map(g => g.name),
+                datasets: [{
+                    data: surveyData.genres.map(g => g.count),
+                    backgroundColor: surveyData.genres.map(g => g.color),
+                    borderColor: '#1e293b',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { position: 'bottom', labels: { color: '#d1d5db', padding: 15, font: { size: 12 } } } }
+            }
+        });
+    }
+
+    function initLineChart() {
+        const ctx = document.getElementById('lineChart');
+        if (!ctx || !surveyData) return;
+        lineChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: surveyData.timeline.map(t => t.year),
+                datasets: [{
+                    label: 'Films',
+                    data: surveyData.timeline.map(t => t.count),
+                    borderColor: '#fbbf24',
+                    backgroundColor: 'rgba(251,191,36,0.1)',
+                    borderWidth: 3,
+                    pointBackgroundColor: '#fbbf24',
+                    pointBorderColor: '#f59e0b',
+                    pointBorderWidth: 2,
+                    pointRadius: 6,
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: { beginAtZero: true, ticks: { color: '#9ca3af', font: { size: 12 } }, grid: { color: '#334155', drawBorder: false } },
+                    x: { ticks: { color: '#9ca3af', font: { size: 12 } }, grid: { display: false } }
+                }
+            }
+        });
+    }
+
+    function switchTab(tabName, event) {
+        document.querySelectorAll('.content').forEach(c => c.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById(tabName).classList.add('active');
+        event.currentTarget.classList.add('active');
+        setTimeout(() => {
+            if (tabName === 'overview' && barChart) barChart.resize();
+            if (tabName === 'genres' && pieChart) pieChart.resize();
+            if (tabName === 'timeline' && lineChart) lineChart.resize();
+        }, 100);
+    }
+
     function populateFilmsList() {
-      if (!surveyData || !surveyData.films) return;
-
-      // Keep full film objects (title, emoji, votes)
-      allFilms = surveyData.films.map(f => ({
-        title: f.title,
-        emoji: f.emoji,
-        votes: f.votes
-      }));
-
-      // Initially sort alphabetically
-      allFilms.sort((a, b) => a.title.localeCompare(b.title));
-
-      displayFilms(allFilms);
+        if (!surveyData || !surveyData.films) return;
+        
+        allFilms = surveyData.films
+            .map(f => f.title)
+            .sort((a, b) => a.localeCompare(b));
+        
+        displayFilms(allFilms);
     }
 
     function displayFilms(films) {
-      const filmsList = document.getElementById('filmsList');
-      const filmsCount = document.getElementById('filmsCount');
+        const filmsList = document.getElementById('filmsList');
+        const filmsCount = document.getElementById('filmsCount');
 
-      filmsList.innerHTML = films.map(f => `
-        <div class="film-list-item">
-            <span class="film-emoji">${f.emoji}</span>
-            <span class="film-title">${f.title}</span> —
-            <span class="film-votes">${f.votes} vote${f.votes !== 1 ? 's' : ''}</span>
-        </div>
-    `).join('');
+        filmsList.innerHTML = films.map(film => `
+            <div class="film-list-item">${film}</div>
+        `).join('');
 
-      filmsCount.textContent = `Showing ${films.length} unique film${films.length !== 1 ? 's' : ''}`;
+        filmsCount.textContent = `Showing ${films.length} unique film${films.length !== 1 ? 's' : ''}`;
     }
 
     function filterFilms() {
-      const searchTerm = document.getElementById('filmSearch').value.toLowerCase();
-      let filtered = allFilms.filter(film => film.title.toLowerCase().includes(searchTerm));
+        const searchTerm = document.getElementById('filmSearch').value.toLowerCase();
+        let filtered = allFilms.filter(film =>
+            film.toLowerCase().includes(searchTerm)
+        );
 
-      // Apply current sort
-      if (currentSort === 'z-a') filtered.sort((a, b) => b.title.localeCompare(a.title));
-      else filtered.sort((a, b) => a.title.localeCompare(b.title));
+        if (currentSort === 'z-a') {
+            filtered.sort((a, b) => b.localeCompare(a));
+        }
 
-      displayFilms(filtered);
+        displayFilms(filtered);
     }
 
-    function sortFilms(direction, event) {
-      currentSort = direction;
+    function sortFilms(direction) {
+        currentSort = direction;
 
-      // Update button states
-      document.querySelectorAll('.sort-btn').forEach(btn => btn.classList.remove('active'));
-      if (event) event.target.classList.add('active');
+        // Update button states
+        document.querySelectorAll('.sort-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        event.target.classList.add('active');
 
-      let sorted = [...allFilms];
-      if (direction === 'z-a') sorted.sort((a, b) => b.title.localeCompare(a.title));
-      else sorted.sort((a, b) => a.title.localeCompare(b.title));
+        let sorted = [...allFilms];
+        if (direction === 'z-a') {
+            sorted.sort((a, b) => b.localeCompare(a));
+        } else {
+            sorted.sort((a, b) => a.localeCompare(b));
+        }
 
-      // Apply current search filter
-      const searchTerm = document.getElementById('filmSearch').value.toLowerCase();
-      if (searchTerm) {
-        sorted = sorted.filter(film => film.title.toLowerCase().includes(searchTerm));
-      }
+        // Apply current search filter if any
+        const searchTerm = document.getElementById('filmSearch').value.toLowerCase();
+        if (searchTerm) {
+            sorted = sorted.filter(film =>
+                film.toLowerCase().includes(searchTerm)
+            );
+        }
 
-      displayFilms(sorted);
+        displayFilms(sorted);
     }
-  </script>
+
+    document.addEventListener('DOMContentLoaded', loadData);
+</script>
+
 
 </body>
 
