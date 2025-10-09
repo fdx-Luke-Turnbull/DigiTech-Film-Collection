@@ -504,9 +504,11 @@
     </div>
 
     <script>
-        // Load data from JSON file
+        // Initialize chart variables
+        let barChart, pieChart, lineChart;
         let surveyData = null;
 
+        // Load data from JSON file
         async function loadData() {
             try {
                 const response = await fetch('film-data.json');
