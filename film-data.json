@@ -50,6 +50,16 @@
       "emoji": "🧟"
     },
     {
+      "title": "Lucy (2014)",
+      "votes": 1,
+      "emoji": "💊"
+    },
+    {
+      "title": "Terminal (2004)",
+      "votes": 1,
+      "emoji": "✈️"
+    },
+    {
       "title": "Arrival (2016)",
       "votes": 1,
       "emoji": "🛸"
@@ -216,7 +226,7 @@
     },
     {
       "title": "Interstellar (2014)",
-      "votes": 3,
+      "votes": 4,
       "emoji": "🚀"
     },
     {
@@ -236,7 +246,7 @@
     },
     {
       "title": "Jason Bourne (all)",
-      "votes": 1,
+      "votes": 2,
       "emoji": "🕵️"
     },
     {
@@ -583,7 +593,7 @@
   "genres": [
     {
       "name": "Sci-Fi",
-      "count": 27,
+      "count": 28,
       "color": "#3b82f6"
     },
     {
@@ -598,7 +608,7 @@
     },
     {
       "name": "Comedy",
-      "count": 12,
+      "count": 13,
       "color": "#fbbf24"
     },
     {
@@ -623,11 +633,11 @@
     },
     {
       "year": "2000s",
-      "count": 22
+      "count": 23
     },
     {
       "year": "2010s",
-      "count": 23
+      "count": 24
     },
     {
       "year": "2020s",
@@ -642,6 +652,12 @@
       "description": "Time travel perfection - the clear team CHAMPION! 🏆"
     },
     {
+      "rank": "🥇",
+      "film": "Interstellar",
+      "votes": 4,
+      "description": "Epic scale meets emotional depth"
+    },
+    {
       "rank": "🥈",
       "film": "Blade Runner",
       "votes": 3,
@@ -652,12 +668,6 @@
       "film": "Forrest Gump",
       "votes": 3,
       "description": "Life is like a box of chocolates... and so is cinema!"
-    },
-    {
-      "rank": "🥈",
-      "film": "Interstellar",
-      "votes": 3,
-      "description": "Epic scale meets emotional depth"
     },
     {
       "rank": "🥈",
